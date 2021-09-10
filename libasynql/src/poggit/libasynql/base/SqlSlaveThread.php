@@ -120,8 +120,11 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}
 
-			$callbacks[$queryId]($result);
-			unset($callbacks[$queryId]);
+			try{
+				$callbacks[$queryId]($result);
+			}finally{
+				unset($callbacks[$queryId]);
+			}
 		}
 	}
 
